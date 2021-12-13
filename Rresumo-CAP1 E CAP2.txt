@@ -1,0 +1,224 @@
+CAPITULO 1
+
+help.started() ->  abre a doc
+help(mean), ?(mean) -> abre a doc da função mean
+args(means) 
+args(sd) -> relembra os parametros da função
+example(mean)
+help.search("pattern") -> alternativa caso mean não funcione ou ??pattern
+Usar o help(add.fest) as vezes dá erro por não ter o package da função instalado então
+utilize o help.search("ad.test") que vai mostrar o package que está a função
+Type '?PKG::FOO' to inspect entry 'PKG::FOO TITLE'.
+
+help(adf.test, package="tseries") -> checa se a função ta no pack #deu erro ao executar
+
+help(package="packagename") -> para aprender mais sobre o determinado package
+vignette(package="packagename") -> é tipo uma documentação original c/ cards e tutoriais
+https://rseek.org/ -> site para estudar r
+https://stats.stackexchange.com/ -> site para estudar estatistica 
+
+https://cran.r-project.org/web/views/ -> package
+https://rseek.org/ ->keywords
+http://crantastic.org/ -> procurar keywords por package
+https://rseek.org/ -> para achar funções, para procurar por nome e keyword
+No crann tem manual de referencia referenciando tds os packages que por sua vez tem um sumario
+Mialing List site para dúvidas de R.
+Main R Mailing List e Posting Guide
+
+para criar uma dúvida : r-help@r-project.org
+
+
+CAPITULO 2
+
+
+O print estrutura matrizes
+ print(matrix(c(1,2,3,4), 2, 2))
+     [,1] [,2]
+[1,]    1    3
+[2,]    2    4
+
+O print só printa um obj por vez
+Então se torna necessario usar vários prints ex:  print("The zero occurs at"); print(2*pi); print("radians")
+a função cat serve para usar vários prints :cat("The zero occurs at", 2*pi, "radians.", "\n")
+
+Cat para vectors
+fib <- c(0,1,1,2,3,5,8,13,21,34)
+> cat("The first few Fibonacci numbers are:", fib, "...\n")
+
+
+> x <- 3 , salva o valor na variavel x
+> x <- 3
+> y <- 4
+> z <- sqrt(x^2 + y^2)
+> print(z)
+
+R é dinamicamente tipada
+
+> x <- c("fee", "fie", "foe", "fum")
+> print(x)
+[1] "fee" "fie" "foe" "fum"
+
+x <<- 3
+Força uma variavel global inves de uma local
+
+> foo = 3
+> print(foo)
+[1] 3
+> 5 -> fum
+> print(fum)
+[1] 5
+
+> x <- 10
+> y <- 50
+> z <- c("three","blind","mice")
+> f <- function(n,p) sqrt(p*(1-p)/n)
+> ls()
+ A ls nomeia os objetos na função
+ls.str()
+ ls(all.names=TRUE) , exibe todos os nomes do vetor
+rm(x) -> deleta o obj permanentemente
+Deletando uma lista
+ls()
+"fib" "foo" "mice"
+rm(list=ls())
+character(0)
+
+Concatenando 2 vetores
+> v1 <- c(1,2,3)
+> v2 <- c(4,5,6)
+> c(v1,v2)
+[1] 1 2 3 4 5 6
+
+mode(3.1415) , diz o tipo
+
+> c(3.1415, "foo")
+[1] "3.1415" "foo"
+> mode(c(3.1415, "foo"))
+[1] "character"
+
+
+• mean(x)
+• median(x)
+• sd(x)
+• var(x)
+• cor(x, y)
+• cov(x, y)
+
+> x <- c(0,1,1,2,3,5,8,13,21,34)
+> mean(x)
+[1] 8.8
+
+Criando uma sequencia de números
+ seq(from=1, to=5, by=2)
+Criando números repetidos
+rep(1, times=5)
+Sequência de números entre
+0:9 
+10:1
+
+
+seq(from=0, to=20, by=5)
+seq(from=0, to=20, length.out=5)
+
+> rep(pi, times=5)
+[1] 3.141593 3.141593 3.141593 3.141593 3.141593
+
+
+Comparação de vetores == , <, >
+
+> a <- 3
+> a == pi # Test for equality
+[1] FALSE
+> a != pi # Test for inequality
+[1] TRUE
+> a < pi
+[1] TRUE
+> a > pi
+[1] FALSE
+> a <= pi
+[1] TRUE
+> a >= pi
+[1] FALSE
+
+Comparando um vetor com um escalar
+> v <- c(3, pi, 4)
+> v == pi # Compare a 3-element vector against one number
+[1] FALSE TRUE FALSE
+> v != pi
+[1] TRUE FALSE TRUE
+
+A algum, tdos são igual ao escalar?
+
+> v <- c(3, pi, 4)
+> any(v == pi) # Return TRUE if any element of v equals pi
+[1] TRUE
+> all(v == 0) # Return TRUE if all elements of v are zero
+[1] FALSE
+
+SELECIONANDO ELEMENTOS DO VETOR
+Selecionando elemento v[3]
+Indice neg para excluir
+Usar nome para acessar elementos c/ nomes
+Usar os indices para selecioanr vários valores
+Usar o vector lógico para acessa multiplos valores
+
+
+fib <- c(0,1,1,2,3,5,8,13,21,34)
+> fib
+ [1] 0 1 1 2 3 5 8 13 21 34
+> fib[1]
+[1] 0
+
+O R começa a contar do 1
+Slice como py só q não ignora o ultimo
+fib[1:3] 
+[1] 0 1 1
+fib[-1] ignora o primeiro elemento
+fib[-(1:3)] exclui nesse range
+fib < 10
+TRUE TRUE TRUE FALSE
+
+
+fib %% 2 == 0 # This vector is TRUE wherever fib is even
+ [1] TRUE FALSE FALSE TRUE FALSE FALSE TRUE FALSE FALSE TRUE
+> fib[fib %% 2 == 0] # Use that vector to select the even elements
+[1] 0 2 8 34
+
+v[ v > median(v) ], Seleciona os elementos que são maiores que a media
+v[ (v < quantile(v,0.05)) | (v > quantile(v,0.95)) ] , seleciona os elementos maiores e 5% e menores que 95% #errado
+v[ abs(v-mean(v)) > 2*sd(v) ] , desvio padrão da média #errado
+
+v[ !is.na(v) & !is.null(v) ] , seleciona os valores que não são NA ou NULL
+
+> years <- c(1960, 1964, 1976, 1994)
+> names(years) <- c("Kennedy", "Johnson", "Carter", "Clinton")   #MEU exemplo deu errado
+> years
+Kennedy Johnson Carter Clinton 
+ 1960 1964 1976 1994
+years["Carter"]
+
+> years[c("Carter","Clinton")]
+ Carter Clinton 
+ 1976 1994
+
+sqrt(W)
+log(w)
+sin(w)
+
+ATENÇÃO
+> n <− 10
+> 0:n−1
+>[1] −1 0 1 2 3 4 5 6 7 8 
+
+
+
+function(param1, ..., paramN) {
+ expr1
+ .
+ .
+ .
+ exprM
+}
+
+
+
