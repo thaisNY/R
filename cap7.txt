@@ -1,0 +1,178 @@
+Função para ver o tamanho de uma string
+> nchar("Moe")
+[1] 3
+> nchar("Curly")
+[1] 5
+Aplicado a um vetor de strings mostra o tamanho de cada 1
+> s <- c("Moe", "Larry", "Curly")
+> nchar(s)
+[1] 3 5 5
+Um erro comum é achar que o length retornaria o tamanho da string mas, ele retorna o tamanho do array
+> length("Moe")
+[1] 1
+> length(c("Moe","Larry","Curly"))
+[1] Concatenação de Strings
+
+> paste("Everybody", "loves", "stats.")
+[1] "Everybody loves stats.
+Separador
+> paste("Everybody", "loves", "stats.", sep="-")
+[1] "Everybody-loves-stats."
+> paste("Everybody", "loves", "stats.", sep="")
+[1] "Everybodylovesstats."
+Uma observação importante sobre a função paste é que, se você passar um argumento que não é string 
+ela irá ler como string como no exemplo abaixo:
+> paste("The square root of twice pi is approximately", sqrt(2*pi))
+[1] "The square root of twice pi is approximately 2.506628274631"
+Caso você passe uma vetor como argumento ela irá concatenar cada elemento do vetor com os outros argumentos passados
+> stooges <- c("Moe", "Larry", "Curly")
+> paste(stooges, "loves", "stats.")
+[1] "Moe loves stats." "Larry loves stats." "Curly loves stats.
+Dá também para usar o separador para concatenar esse vetor as strings 
+> paste(stooges, "loves", "stats", collapse=", and ")
+[1] "Moe loves stats, and Larry loves stats, and Curly loves stats"
+
+Extraindo Substrings
+
+Use essa função para gerar substrings substr(string,start,end)
+> substr("Statistics", 1, 4) # Extract first 4 characters
+[1] "Stat"
+> substr("Statistics", 7, 10) # Extract last 4 characters
+[1] "tics"
+No caso de passar um vetor como argumento 
+> ss <- c("Moe", "Larry", "Curly")
+> substr(ss, 1, 3) # Extract first 3 characters of each string
+[1] "Moe" "Lar" "Cur
+
+> cities <- c("New York, NY", "Los Angeles, CA", "Peoria, IL") #n entendi
+> substr(cities, nchar(cities)-1, nchar(cities))
+[1] "NY" "CA" "IL"
+
+Separar uma String de acordo com delimitador
+> strsplit(string, delimiter)
+O delimitador pode ser uma string ou uma expressão regular
+> path <- "/home/mike/data/trials.csv"
+
+> strsplit(path, "/")
+[[1]]
+[1] "" "home" "mike" "data" "trials.csv"
+
+> paths <- c("/home/mike/data/trials.csv",
++ "/home/mike/data/errors.csv",
++ "/home/mike/corr/reject.doc")
+> strsplit(paths, "/")
+[[1]]
+[1] "" "home" "mike" "data" "trials.csv"
+[[2]]
+[1] "" "home" "mike" "data" "errors.csv"
+[[3]]
+[1] "" "home" "mike" "corr" "reject.doc"
+
+Trocando uma Substring
+Sub para trocar a instancia de uma string
+gsub para para trocar todas as instancias -> troca de forma global
+> sub(old, new, string)
+> gsub(old, new, string)
+Sub
+> s <- "Curly is the smart one. Curly is funny, too."
+> sub("Curly", "Moe", s)
+[1] "Moe is the smart one. Curly is funny, too."
+
+Gsub
+> gsub("Curly", "Moe", s)
+[1] "Moe is the smart one. Moe is funny, too
+Para remover uma string só colocar a nova substring como vazio
+
+Especial carcters numa string
+As vezes nesse lance de apagar, vc cria caracter não imprimiveis que aumenta o tamanho da sting mesmo não os imprimindo
+Como no exemplo:
+> nchar(s)
+[1] 13
+> cat(s)
+second
+
+Gerando combinações
+Para fazer um produto cartesiano 
+m <- outer(strings1, strings2, paste, sep="")
+Exemplo:
+> locations <- c("NY", "LA", "CHI", "HOU")
+> treatments <- c("T1", "T2", "T3")
+> outer(locations, treatments, paste, sep="-")
+ [,1] [,2] [,3] 
+[1,] "NY-T1" "NY-T2" "NY-T3" 
+[2,] "LA-T1" "LA-T2" "LA-T3" 
+[3,] "CHI-T1" "CHI-T2" "CHI-T3"
+[4,] "HOU-T1" "HOU-T2" "HOU-T3"
+
+Pegando a data atual
+> Sys.Date()
+[1] "2010-02-11"
+
+Convertendo uma string em Dados
+tem a string “2010-12-31” e você quer conventer em dado, ent use:
+as.Date
+formato yyyy-mm-dd:
+
+> as.Date("12/31/2010", format="%m/%d/%Y")
+[1] "2010-12-31"
+
+
+Converter um objeto em string principalmente para poder printar
+> format(Sys.Date())
+[1] "2010-04-01"
+> as.character(Sys.Date())
+[1] "2010-04-01"
+
+
+Convertendo ano, mês, dia em dado
+> ISOdate(year, month, day)
+
+> years
+[1] 2010 2011 2012 2013 2014
+> months
+[1] 1 1 1 1 1
+> days
+[1] 15 21 20 18 17
+> ISOdate(years, months, days)
+[1] "2010-01-15 12:00:00 GMT" "2011-01-21 12:00:00 GMT"
+[3] "2012-01-20 12:00:00 GMT" "2013-01-18 12:00:00 GMT"
+[5] "2014-01-17 12:00:00 GMT"
+> as.Date(ISOdate(years, months, days))
+[1] "2010-01-15" "2011-01-21" "2012-01-20" "2013-01-18" "2014-01-17"
+
+
+Extraindo partes de um dado
+> d <- as.Date("2010-03-15")
+> p <- as.POSIXlt(d)
+> p$mday # Day of the month
+[1] 15
+> p$mon # Month (0 = January)
+[1] 2
+> p$year + 1900 # Year
+[1] 2010
+
+Criando uma sequência de datas
+
+> s <- as.Date("2012-01-01")
+> e <- as.Date("2012-02-01")
+> seq(from=s, to=e, by=1) # One month of dates
+ [1] "2012-01-01" "2012-01-02" "2012-01-03" "2012-01-04" "2012-01-05" "2012-01-06"
+ [7] "2012-01-07" "2012-01-08" "2012-01-09" "2012-01-10" "2012-01-11" "2012-01-12"
+[13] "2012-01-13" "2012-01-14" "2012-01-15" "2012-01-16" "2012-01-17" "2012-01-18"
+[19] "2012-01-19" "2012-01-20" "2012-01-21" "2012-01-22" "2012-01-23" "2012-01-24"
+[25] "2012-01-25" "2012-01-26" "2012-01-27" "2012-01-28" "2012-01-29" "2012-01-30"
+[31] "2012-01-31" "2012-02-01"
+
+
+> seq(from=s, by=1, length.out=7) # Dates, one week apart
+[1] "2012-01-01" "2012-01-02" "2012-01-03" "2012-01-04" "2012-01-05" "2012-01-06"
+[7] "2012-01-07"
+
+> seq(from=s, by="month", length.out=12) # First of the month for one year
+ [1] "2012-01-01" "2012-02-01" "2012-03-01" "2012-04-01" "2012-05-01" "2012-06-01"
+ [7] "2012-07-01" "2012-08-01" "2012-09-01" "2012-10-01" "2012-11-01" "2012-12-01"
+> seq(from=s, by="3 months", length.out=4) # Quarterly dates for one year
+[1] "2012-01-01" "2012-04-01" "2012-07-01" "2012-10-01"
+
+
+
